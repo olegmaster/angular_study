@@ -1,0 +1,15 @@
+.wrap {
+  padding-top: 3rem;
+  width: 500px;
+  margin: 0 auto;
+}
+
+
+.box {
+  width: 1000px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dotted black;
+}

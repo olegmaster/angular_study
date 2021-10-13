@@ -1,0 +1,84 @@
+<div class="container">
+    <h1>Angular HttpClient</h1>
+    <div class="card">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <input type="hidden" formControlName="id">
+            <div class="form-control">
+                <select formControlName="userId">
+                    <option value="">Choose user</option>
+                    <option *ngFor="let user of users" ngValue="{{user.id}}"
+                            [selected]="user.id == 1" >{{user.name}}</option>
+                </select>
+            </div>
+            <div *ngIf="form.get('userId').invalid && form.get('userId').touched "><small>The user is required</small>
+            </div>
+            <div class="form-control">
+                <input type="text" placeholder="Post title" formControlName="title">
+            </div>
+            <div *ngIf="form.get('title').invalid && form.get('title').touched"><small>The title is required</small>
+            </div>
+            <div class="form-control">
+                <input type="text" placeholder="Post Body" formControlName="body">
+            </div>
+            <div *ngIf="form.get('body').invalid && form.get('body').touched"><small>The body is required</small></div>
+            <button class="btn" type="submit" [disabled]="!form.valid || form.get('id').value != ''" (click)="setAction('create')">Добавить Post {{  form.get('id').value}}
+            </button>
+            <button class="btn" type="submit" [disabled]="!form.valid || form.get('id').value == ''" (click)="setAction('update')">Обновить Post
+            </button>
+            <button class="btn" type="button" (click)="form.reset()">Reset</button>
+        </form>
+    </div>
+
+    <hr>
+
+    <p *ngIf="error; else todosBlock" class="error">{{error}}</p>
+
+    <ng-template #todosBlock>
+        <div *ngIf="!loading; else loadingBlock">
+            <div class="card">
+                <p>
+                    <span class="completed">Название</span>
+                    <span>
+        <button class="btn" (click)="fetchPosts()">Load Posts</button>
+        <button class="btn btn-danger">Удалить</button>
+        <button class="btn">Завершить</button>
+      </span>
+                </p>
+            </div>
+        </div>
+
+        <ng-template #loadingBlock>Loading ...</ng-template>
+        <div *ngIf="posts.length > 0; else emptyListMessage">
+            <div class="card" *ngFor="let post of posts" >
+                <p>Post id</p>
+                <p>
+                    <span>{{post.id}}</span>
+                </p>
+                <p>User id</p>
+                <p>
+                    <span>{{post.userId}}</span>
+                </p>
+                <p>Post Title</p>
+                <p>
+                    <span>{{post.title}}</span>
+                </p>
+                <p>Post body</p>
+                <p>
+                    <span>{{post.body}}</span>
+                </p>
+                <span>
+        <button class="btn btn-danger" (click)="deletePost(post.id)">Удалить</button>
+        <button class="btn" (click)="setUpdatePostMode(post.id)">Update</button>
+      </span>
+            </div>
+        </div>
+        <ng-template #emptyListMessage>
+            <p>The list is empty</p>
+        </ng-template>
+    </ng-template>
+
+
+</div>
+
+
+

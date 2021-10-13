@@ -1,0 +1,2 @@
+<button (click)="visible = !visible">{{ visible ? "Hide" : "Show" }}</button>
+<div class="rect" [@bounce] *ngIf="visible" ></div>
